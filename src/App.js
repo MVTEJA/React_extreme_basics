@@ -1,30 +1,53 @@
 import React from "react";
 import { useState } from "react";
 
-// this is a increment decrement app to know what state is and how it is used 
+// this is a todo app 
 
 function App() {
+ 
+  const [name, setName] = useState("");
+  const [Items , setItems] = useState([]);
 
-  const [temp , settemp] = useState(0);
-  
-  const func1 = () => {
-     settemp(temp+1);
-  }
+  const itemEvent = (event) => {
+     setName(event.target.value);
+  };
 
-  const func2 = () => {
-    if(temp > 0){
-      settemp(temp-1);
-    }
+  const listOfitems = () => {
+      // setItems((oldItems) => {
+      //      return [...oldItems, name];
+      // });
+
+      setItems([...Items , name])
+  };
+
+  const deleteItems = (index) => {
+       const u1 = [...Items];
+       u1.splice(index , 1);
+       setItems(u1);
+       console.log("deleted");
   }
 
   return (
-    <div className="App">
-       <h1>{temp}</h1>
-       <br></br>
-       <button onClick={func1}>Increment</button>
-       <br></br>
-       <button onClick={func2}>Decrement</button>
-    </div>
+      <div>
+
+        <h1>TO DO LIST</h1>
+        <br></br>
+        <input type="text" placeholder="Add a Items" onChange={itemEvent}/>
+        <button onClick={listOfitems}>Submit</button>
+        
+        <ol>
+         {Items.map((itemval , index) => {
+              return( 
+                <li key={index}>
+                  {itemval}
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {/* for spaces btw text and button, don't bother */}
+                  <button onClick={() => deleteItems(index)}> Delete </button>
+                </li>
+              )
+          })}
+        </ol>
+        
+      </div>   
   );
 }
 
